@@ -10,3 +10,4 @@ __pycache__/
 .hermes-tmp.*
 .hermes-tmp*/
 data/chroma_db/
+.venv/
