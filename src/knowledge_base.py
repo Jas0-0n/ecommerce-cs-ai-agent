@@ -1,4 +1,6 @@
 import re
+import os
+import sys
 from pathlib import Path
 import chromadb
 from src.config import settings
@@ -12,7 +14,20 @@ def _get_encoder():
     global _encoder
     if _encoder is None:
         from sentence_transformers import SentenceTransformer
-        _encoder = SentenceTransformer(settings.embedding_model)
+        
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = open(os.devnull, 'w')
+        sys.stderr = open(os.devnull, 'w')
+        try:
+            os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+            os.environ['TRANSFORMERS_VERBOSITY'] = 'error'
+            _encoder = SentenceTransformer(settings.embedding_model)
+        finally:
+            sys.stdout.close()
+            sys.stderr.close()
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr
     return _encoder
 
 

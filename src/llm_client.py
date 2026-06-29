@@ -1,6 +1,6 @@
 import json
 from typing import Callable
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 from openai import OpenAI, AsyncOpenAI
 from src.config import settings
 
@@ -27,6 +27,25 @@ class FakeMessage:
     def __init__(self, text: str):
         self.content = text
         self.tool_calls = None
+
+
+def _serialize_message(m: Message) -> dict:
+    d = {"role": m.role, "content": m.content}
+    if m.tool_call_id:
+        d["tool_call_id"] = m.tool_call_id
+    if m.tool_calls:
+        d["tool_calls"] = [
+            {
+                "id": tc.id,
+                "type": tc.type,
+                "function": {
+                    "name": tc.function.name,
+                    "arguments": tc.function.arguments,
+                },
+            }
+            for tc in m.tool_calls
+        ]
+    return d
 
 
 class LLMClient:
@@ -98,7 +117,7 @@ class LLMClient:
 
         kwargs = {
             "model": self.model,
-            "messages": [asdict(m) for m in messages],
+            "messages": [_serialize_message(m) for m in messages],
         }
         if tools:
             kwargs["tools"] = [
@@ -125,7 +144,7 @@ class LLMClient:
 
         kwargs = {
             "model": self.model,
-            "messages": [asdict(m) for m in messages],
+            "messages": [_serialize_message(m) for m in messages],
             "stream": True,
         }
         if tools:
@@ -190,7 +209,7 @@ class LLMClient:
 
         kwargs = {
             "model": self.model,
-            "messages": [asdict(m) for m in messages],
+            "messages": [_serialize_message(m) for m in messages],
         }
         if tools:
             kwargs["tools"] = [
@@ -217,7 +236,7 @@ class LLMClient:
 
         kwargs = {
             "model": self.model,
-            "messages": [asdict(m) for m in messages],
+            "messages": [_serialize_message(m) for m in messages],
             "stream": True,
         }
         if tools:
