@@ -1,20 +1,20 @@
 # data/knowledge/faq_returns.md
-# Return & Exchange Policy
+# 退換貨政策
 
-## Q: What are the return conditions?
-A: Within 7 days of receiving the item (inspection period, not a trial period), if the item is brand new and unopened,
-   with complete packaging and accessories, you may apply for a return.
-   Excludes underwear, food, and customized products.
+## Q: 退貨條件？
+A: 收到商品 7 天鑑賞期內（非試用期），保持商品全新未拆封，
+   包裝配件完整，可申請退貨。
+   貼身衣物、食品、客製化商品除外。
 
-## Q: What is the return process?
-A: Steps: Log in to the website > My Orders > Request Return > Select Return Reason >
-   Submit, then logistics will pick up within 1-2 business days > Refund issued within 5-7 business days after inspection.
+## Q: 退貨流程？
+A: 步驟：登入官網 > 我的訂單 > 申請退貨 > 選擇退貨原因 >
+   提交後 1-2 工作天物流到府收件 > 驗收後 5-7 工作天退款。
 
-## Q: Refund methods and timeframes?
-A: Credit card: Refunded to the original card, posted within 7-14 business days
-   Convenience store payment / ATM: Refunded to a designated bank account within 5-7 business days
-   Cash on delivery: Refunded to a designated bank account within 5-7 business days
+## Q: 退款方式與時間？
+A: 信用卡：退刷至原卡，7-14 工作天入帳
+   超商付款/ATM：退款至指定銀行帳戶，5-7 工作天
+   貨到付款：退款至指定銀行帳戶，5-7 工作天
 
-## Q: How are exchanges handled?
-A: Currently, we only offer returns and repurchasing; there is no direct exchange service.
-   If you received a defective item, please take a photo and contact customer service within 24 hours.
+## Q: 換貨怎麼處理？
+A: 目前僅提供退貨重下，暫無直接換貨服務。
+   若收到瑕疵品，請於 24 小時內拍照聯繫客服。

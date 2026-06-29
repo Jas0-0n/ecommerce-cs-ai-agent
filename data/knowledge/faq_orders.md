@@ -1,21 +1,21 @@
 # data/knowledge/faq_orders.md
-# Order FAQ
+# 訂單相關 FAQ
 
-## Q: How do I check my order status?
-A: Log in to the website and go to "My Account > Order Inquiry" to view your order status.
-   Alternatively, call customer service at 0800-XXX-XXX and provide your order number.
+## Q: 如何查詢訂單狀態？
+A: 您可以登入官網「我的帳戶 > 訂單查詢」查看訂單狀態。
+   或致電客服 0800-XXX-XXX 提供訂單編號查詢。
 
-## Q: How do I modify an order?
-A: Orders can be cancelled and re-placed within 30 minutes of placement.
-   After 30 minutes, please contact customer service.
-   Orders cannot be modified after shipment.
+## Q: 如何修改訂單？
+A: 訂單成立後 30 分鐘內可自行取消重下。
+   超過 30 分鐘請聯繫客服處理。
+   出貨後無法修改訂單內容。
 
-## Q: Can orders be combined?
-A: Different orders cannot be combined. We recommend cancelling and placing a new single order.
+## Q: 訂單可以合併嗎？
+A: 不同訂單無法合併。建議您取消後重新一起下單。
 
-## Q: My order shows "Shipped" but I haven't received it?
-A: Please check the tracking number first. Common reasons:
-   1. The shipment is still in transit (orders placed before 6 PM arrive the next day)
-   2. The package was received by the building management or security guard
-   3. The shipping address was entered incorrectly
-   If you still haven't received it after 3 business days, please contact customer service for package tracing.
+## Q: 訂單顯示「已出貨」但沒收到？
+A: 請先檢查物流追蹤號，常見原因：
+   1. 物流還在配送中（晚上6點前下單，隔日到貨）
+   2. 包裹被社區管理室/警衛代收
+   3. 地址填寫錯誤
+   若超過 3 個工作日仍未收到，請聯繫客服進行包裹協尋。

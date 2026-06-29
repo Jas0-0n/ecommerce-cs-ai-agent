@@ -13,8 +13,9 @@ class Settings(BaseSettings):
     kb_collection_name: str = "ecommerce_faq"
     embedding_model: str = "all-MiniLM-L6-v2"
 
-    # Complaint
-    escalate_keywords: list = ["complaint bureau", "news reporter", "sue you", "legal action", "manager", "call manager"]
+    # Complaint — keywords to match user input (support both languages)
+    escalate_keywords: list = ["消基會", "找記者", "告你", "法律途徑", "找主管", "叫主管",
+                               "complaint bureau", "sue", "lawyer", "manager"]
     auto_resolve_sentiment_threshold: float = -0.3  # Below this score, force human transfer
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")

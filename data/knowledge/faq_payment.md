@@ -1,20 +1,20 @@
 # data/knowledge/faq_payment.md
-# Payment FAQ
+# 付款相關 FAQ
 
-## Q: What payment methods are available?
-A: We accept: Credit card (Visa/Mastercard/JCB), LINE Pay,
-   JKOPay, convenience store payment code, ATM transfer, and cash on delivery.
+## Q: 提供哪些付款方式？
+A: 我們支援：信用卡（Visa/Mastercard/JCB）、LINE Pay、
+   街口支付、超商代碼繳費、ATM 轉帳、貨到付款。
 
-## Q: Are credit card installments available?
-A: Single purchases over $3,000 NTD qualify for 3-month zero-interest installments (limited to specific banks).
-   Purchases over $6,000 NTD qualify for 6-month zero-interest installments.
-   Partner banks for installments: Cathay, CTBC, Yushan, Taishin, Taipei Fubon.
+## Q: 信用卡分期？
+A: 單筆滿 $3,000 可享 3 期零利率（限特定銀行）。
+   滿 $6,000 可享 6 期零利率。
+   分期合作銀行：國泰、中信、玉山、台新、富邦。
 
-## Q: Are invoices issued?
-A: An electronic invoice will be issued within 3 business days after the order is shipped,
-   and sent to your registered member email.
-   If you need a company tax ID (uniform invoice number), please fill it in at checkout.
+## Q: 發票會開立嗎？
+A: 訂單完成出貨後 3 工作天內開立電子發票，
+   寄送至您的會員 Email。
+   如有統編需求，請於結帳時填寫。
 
-## Q: What if my payment fails?
-A: Please check: whether your credit card limit is sufficient, and whether the card number/expiry date/CVV are correct.
-   If it still fails, we recommend trying a different payment method or placing a new order.
+## Q: 付款失敗怎麼辦？
+A: 請確認：信用卡額度是否足夠、卡號/有效期/CVV 是否正確。
+   若仍失敗，建議更換其他付款方式或重新下單。

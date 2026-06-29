@@ -1,17 +1,17 @@
 # data/knowledge/policy_complaint.md
-# Complaint Handling Policy
+# 客訴處理政策
 
-## Q: What is the complaint handling timeframe?
-A: General complaints will be replied to by a customer service representative within 24 hours.
-   Complex cases (involving returns, refunds, or legal issues) will be replied to within 3 business days.
+## Q: 客訴處理時效？
+A: 一般客訴將在 24 小時內由客服專員回覆。
+   複雜案件（涉及退貨退款、法律問題）將在 3 個工作天內回覆。
 
-## Q: How do I file a complaint?
-A: You can file a complaint through the following channels:
-   1. Official website live customer service chat
-   2. Customer service hotline 0800-XXX-XXX (Monday to Friday, 09:00-18:00)
-   3. Customer service email service@example.com
-   4. LINE official account
+## Q: 如何提出客訴？
+A: 可透過以下管道：
+   1. 官網客服即時對話
+   2. 客服專線 0800-XXX-XXX（週一至週五 09:00-18:00）
+   3. 客服信箱 service@example.com
+   4. LINE 官方帳號
 
-## Q: What is the complaint escalation mechanism?
-A: If you are not satisfied with the initial resolution, you may request escalation to the duty manager.
-   Escalated cases will be replied to by a manager within 4 hours.
+## Q: 客訴升級機制？
+A: 若您對第一次處理結果不滿意，可要求升級至值班主管。
+   升級後的案件將在 4 小時內由主管回覆。
