@@ -1,58 +1,58 @@
 # data/knowledge/faq_jd_aftersales.md
-# 京東售後服務 FAQ（自營）
+# JD.com After-Sales Service FAQ (Direct Sales)
 
-## Q: 京东自营上门取件收费标准及收费方式？
-A: 上门取件收费标准如下：
-   - **大件商品**（冰箱、洗衣机、空调、彩电、床、大件沙发等）：50元/件
-   - **中件商品**（微波炉、饮水机、电脑椅、床垫、中型沙发、油烟机等）：30元/件
-   - **其余小件商品**：8元/件
-   - **京东超市自营秒送**：按距离、重量、时段动态计费，基础运费5元+距离运费+重量运费+时段运费
-   收费方式：上门换新（新订单交付时收取）、退货（从退款中扣减）、返件换新（新订单交付时收取）。
+## Q: What are the JD.com direct-sales pickup fees and payment methods?
+A: Pickup fees are as follows:
+   - **Large items** (refrigerator, washing machine, air conditioner, TV, bed, large sofa, etc.): 50 RMB/item
+   - **Medium items** (microwave, water dispenser, computer chair, mattress, medium sofa, range hood, etc.): 30 RMB/item
+   - **Other small items**: 8 RMB/item
+   - **JD Supermarket Direct Flash Delivery**: Dynamically charged based on distance, weight, and time slot; base shipping 5 RMB + distance fee + weight fee + time slot fee
+   Payment methods: On-site exchange (collected upon new order delivery), return (deducted from refund), return-and-exchange (collected upon new order delivery).
 
-## Q: 京东售后的服务总则是什么？
-A: 京东承诺自客户收到商品之日起7日内可以退货，15日内可以换货。
-   - **质量问题或功能故障**：7日内退货、15日内换货，不收取返回运费
-   - **到货物损、缺件或商品描述不符**：7日内退货、15日内换货，不收取返回运费
-   - **其他原因（个人原因）**：7日内退货（商品完好前提下），不支持换货，需承担返回运费（PLUS会员免运费）
-   判断实际收货日期以客户实际签收日期为准。
-   特别说明不予办理退换货的情况：非京东出售商品、过保商品、未经授权维修、无法提供发票等。
+## Q: What is the general after-sales policy for JD.com?
+A: JD.com promises that within 7 days of receiving the product, customers can return it; within 15 days, they can exchange it.
+   - **Quality issues or functional defects**: Return within 7 days, exchange within 15 days, no return shipping fees
+   - **Damaged upon arrival, missing parts, or items not as described**: Return within 7 days, exchange within 15 days, no return shipping fees
+   - **Other reasons (personal reasons)**: Return within 7 days (provided the product is in good condition), exchange not supported, customer bears return shipping (PLUS members free shipping)
+   Actual receipt date is determined by the customer's signed delivery date.
+   Special notes on non-returnable/exchangeable items: Products not sold by JD.com, out-of-warranty items, unauthorized repairs, inability to provide invoice, etc.
 
-## Q: 京东自营商品7天无理由退货标准？
-A: 在签收商品之日起七天内（按签收后第二天开始计算），商品完好可申请7天无理由退货。
-   商品完好定义：能够保持原有品质、功能，商品本身、配件、商标标识齐全。
-   赠品丢失时，退款需扣除赠品费用。
-   以下商品不适用7天无理由退货：个人定作类、鲜活易腐类、在线下载或拆封的音像制品/计算机软件、报纸期刊、以及根据商品性质不适宜退货的商品。
-   在商品退货时，需扣除购买该商品时通过评价或晒单所获得的京豆及相应优惠。
+## Q: What are the criteria for JD.com direct-sales 7-day no-questions-asked returns?
+A: Within seven days of signing for the product (counting from the day after signing), if the product is intact, you can apply for a 7-day no-questions-asked return.
+   Definition of intact product: The product retains its original quality and functionality, and the product itself, accessories, and trademark labels are all complete.
+   If gifts are missing, the gift cost will be deducted from the refund.
+   The following products are not eligible for 7-day no-questions-asked returns: Custom-made items, perishable/fresh items, downloaded or opened audio/video/computer software, newspapers/magazines, and products that by nature are unsuitable for return.
+   When returning products, JD豆 (JD Bean points) earned from reviews or photo submissions for that product and corresponding discounts will be deducted.
 
-## Q: 京东发错货，该怎么办？
-A: 若您确认收到的商品不是订单中订购的商品，可按以下步骤操作：
-   1. 找到订单中的商品，点击商品右侧的「申请售后」或前往「客户服务」下的「售后服务」
-   2. 选择「换货」并点击「申请」
-   3. 提交成功后耐心等待，由专业的售后工作人员受理您的申请
-   **第三方卖家商品**：请联系卖家客服处理。
+## Q: What should I do if JD.com shipped the wrong item?
+A: If you confirm that the item received is not what you ordered, follow these steps:
+   1. Find the item in your order, click "Request After-Sales" on the right side of the item, or go to "Customer Service" > "After-Sales Service"
+   2. Select "Exchange" and click "Apply"
+   3. After submitting, wait patiently for a professional after-sales representative to process your application
+   **Third-party seller items**: Please contact the seller's customer service for handling.
 
-## Q: 申请退换货或保修，没有发票可以申请吗？
-A: 分以下三种情况：
-   - **退货**：缺少发票可以申请，但退款需扣除税点
-   - **返修**（维修）：需要提供发票
-   - **换货**：无需提供发票
+## Q: Can I apply for a return/exchange/warranty without an invoice?
+A: It depends on the following three scenarios:
+   - **Return**: Can be applied for without an invoice, but tax points will be deducted from the refund
+   - **Repair**: An invoice is required
+   - **Exchange**: No invoice required
 
-## Q: 为什么我不能退换货？
-A: 可能存在以下几种情况，无法办理退换货：
-   1. 任何非京东出售的商品（序列号不符）
-   2. 过保商品（超过三包保修期的商品）
-   3. 未经授权的维修、误用、碰撞、疏忽、滥用、进液、事故、改动、不正确的安装所造成的商品质量问题，或撕毁、涂改标贴、机器序号、防伪标记
-   4. 无法提供商品的发票、保修卡等三包凭证或者三包凭证信息与商品不符及被涂改的
-   5. 其他依法不应办理退换货的
-   温馨提示：退货时需扣除购买该商品通过评价或晒单获得的京豆及相应优惠。
+## Q: Why can't I return or exchange my item?
+A: The following situations may prevent returns or exchanges:
+   1. Any product not sold by JD.com (serial number mismatch)
+   2. Out-of-warranty products (beyond the statutory warranty period)
+   3. Quality issues caused by unauthorized repair, misuse, collision, negligence, abuse, liquid damage, accidents, alterations, or improper installation; or torn/damaged/altered labels, serial numbers, or anti-counterfeit marks
+   4. Inability to provide the invoice, warranty card, or other warranty documents, or document information does not match the product or has been altered
+   5. Other situations where returns/exchanges are not permitted by law
+   Note: When returning, JD豆 (JD Bean points) earned from reviews or photo submissions for that product and corresponding discounts will be deducted.
 
-## Q: 我的商品是否可以退换货？为什么我的商品无法退货？
-A: 请在「售后政策」页面输入商品编号，查询您所购买商品的售后政策。
-   若已申请但被驳回，可点击「我的京东」→「返修退换货」→「查看返修退换货/记录」→「查看」查看审核结果原因。
-   不同品类商品规则不同，建议查看不同品类售后细则。
+## Q: Can my product be returned or exchanged? Why can't my product be returned?
+A: Please visit the "After-Sales Policy" page and enter the product serial number to check the after-sales policy for your purchased product.
+   If your application has been rejected, click "My JD.com" > "Repair/Return/Exchange" > "View Repair/Return/Exchange Records" > "View" to see the review result and reason.
+   Rules vary by product category; we recommend checking the detailed after-sales policy for your specific category.
 
-## Q: 提交了的服务单，什么时候审核完？
-A: 审核时间如下：
-   - 当天18:00前提交申请：预计当天22:00前审核
-   - 当天18:00后提交申请：预计次日12:00前审核
-   - 申请后48小时内审核完毕（部分商家、双休、节假日不工作）
+## Q: When will my submitted service request be reviewed?
+A: Review times are as follows:
+   - Applications submitted before 18:00 on the same day: Expected to be reviewed by 22:00 the same day
+   - Applications submitted after 18:00 on the same day: Expected to be reviewed by 12:00 the next day
+   - Review completed within 48 hours of application (some sellers and weekends/holidays may not process)

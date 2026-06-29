@@ -1,174 +1,175 @@
-# 🛒 電商客服 AI Agent
+# 🛒 E-commerce Customer Service AI Agent
 
-> 一個整合 FAQ 知識庫問答與客訴處理的 AI 客服助手，可作為電商網站、LINE/Telegram Bot 的後端引擎。
+> An AI customer service assistant integrating FAQ knowledge base Q&A and complaint handling, usable as a backend engine for e-commerce websites, LINE/Telegram Bots.
 
 ---
 
-## 📋 專案簡介
+## 📋 Project Overview
 
-本專案實作了一個**領域特定（Domain-Specific）的 AI Agent**，專注於電商客服場景。系統能夠：
+This project implements a **Domain-Specific AI Agent** focused on e-commerce customer service scenarios. The system can:
 
-- 📖 **自動回答 FAQ**：透過 RAG（檢索增強生成）從知識庫中查找官方回答
-- ⚠️ **智慧處理客訴**：情緒分析 → 分級判定 → 自動回覆或轉接人工
-- 🔀 **智能分流**：自動判斷用戶輸入屬於 FAQ、客訴、還是需要轉接人工
-- 🔌 **多渠道支援**：內建 CLI、FastAPI、LINE Bot、Telegram Bot 整合
+- 📖 **Auto-answer FAQs**: Uses RAG (Retrieval-Augmented Generation) to find official answers from the knowledge base
+- ⚠️ **Smart Complaint Handling**: Sentiment analysis → Triage → Auto-reply or transfer to human
+- 🔀 **Intelligent Routing**: Automatically determines whether user input is FAQ, complaint, or needs human transfer
+- 🔌 **Multi-Channel Support**: Built-in CLI, FastAPI, LINE Bot, Telegram Bot integration
 
-專案從零手寫，不依賴 LangChain / AutoGen 等框架，便於理解和客製化。
+The project is written from scratch without relying on LangChain / AutoGen frameworks, making it easy to understand and customize.
 
 ---
 
 ## 🧱 Tech Stack
 
-| 元件 | 技術 | 說明 |
-|------|------|------|
-| **語言** | Python 3.11+ | |
-| **LLM SDK** | OpenAI SDK | 支援任何 OpenAI-compatible API（含 Ollama / DeepSeek / vLLM） |
-| **向量資料庫** | ChromaDB | 本地持久化儲存，無需額外服務 |
-| **Embedding** | sentence-transformers | `all-MiniLM-L6-v2` 模型 |
-| **API 層** | FastAPI | RESTful API，自動生成 Swagger 文檔 |
-| **CLI** | Rich | 彩色互動式命令列介面 |
-| **測試** | pytest + pytest-asyncio | 22 個測試案例，含 Mock 模式 |
+| Component | Technology | Description |
+|-----------|-----------|-------------|
+| **Language** | Python 3.11+ | |
+| **LLM SDK** | OpenAI SDK | Supports any OpenAI-compatible API (including Ollama / DeepSeek / vLLM) |
+| **Vector DB** | ChromaDB | Local persistent storage, no additional services needed |
+| **Embedding** | sentence-transformers | `all-MiniLM-L6-v2` model |
+| **API Layer** | FastAPI | RESTful API with auto-generated Swagger docs |
+| **CLI** | Rich | Colored interactive command-line interface |
+| **Testing** | pytest + pytest-asyncio | 22 test cases, including Mock mode |
 
 ---
 
 ## 🔄 Workflow
 
-![系統架構圖](assets/workflow.svg)
+![System Architecture](assets/workflow.svg)
 
-> 📌 系統流程：使用者輸入 → Dispatcher 分流 → FAQ Agent 或客訴處理 Agent → 回覆使用者
+> 📌 System flow: User Input → Dispatcher Routing → FAQ Agent or Complaint Agent → Response to User
 
-### 流程說明
+### Process Flow
 
 ```
-使用者輸入
+User Input
     │
     ▼
 ┌──────────────────────┐
-│  ① Dispatcher 分流    │  ← 用 LLM 判斷意圖 + 情緒分析雙重確認
-│  (FAQ / 客訴 / 人工)   │
+│  ① Dispatcher         │  ← Intent classification by LLM + Sentiment double-check
+│  (FAQ / Complaint /   │
+│   Human Transfer)     │
 └──────┬───────┬───────┘
        │       │
        ▼       ▼
 ┌─────────┐ ┌───────────┐
-│ FAQ     │ │ 客訴處理   │
+│ FAQ     │ │ Complaint │
 │ Agent   │ │ Agent     │
 │  │      │ │  │        │
 │  ▼      │ │  ▼        │
-│ RAG 查詢 │ │ 情緒分析   │
-│ 知識庫   │ │ 分級判定   │
-│         │ │ 升級判斷   │
+│ RAG     │ │ Sentiment │
+│ Search  │ │ Triage    │
+│ KB      │ │ Escalate? │
 └────┬────┘ └──┬───┬────┘
      │         │   │
-     │    ⚠️ 升級│   ✅ 自動回覆
-     │         │   │
+     │    ⚠️ Yes│   ✅ Auto
+     │         │   Reply
      ▼         ▼   ▼
 ┌──────────────────────┐
-│  ② Response 輸出      │
-│  - FAQ 回答            │
-│  - 客訴回覆 + 案件編號  │
-│  - 轉接人工通知         │
+│  ② Response Output    │
+│  - FAQ Answer          │
+│  - Complaint Reply + Case ID │
+│  - Human Transfer Notice     │
 └──────────────────────┘
 ```
 
 ---
 
-## 🚀 安裝步驟
+## 🚀 Setup Instructions
 
-### 前置需求
+### Prerequisites
 
 - Python 3.11+
 - pip
 
-### 安裝
+### Installation
 
 ```bash
-# 1. 克隆專案
+# 1. Clone the project
 git clone https://github.com/Jas0-0n/ecommerce-cs-ai-agent.git
 cd ecommerce-cs-ai-agent
 
-# 2. 建立虛擬環境（可選但建議）
+# 2. Create virtual environment (optional but recommended)
 python -m venv .venv
 source .venv/bin/activate   # macOS / Linux
 # .venv\Scripts\activate    # Windows
 
-# 3. 安裝依賴
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4. 設定 LLM API Key（可選，沒設會自動進入 Fake Mode）
+# 4. Set LLM API Key (optional, enters Fake Mode automatically if not set)
 echo 'LLM_API_KEY=your-api-key-here' > .env
-# 如果使用 proxy（例如台灣地區）：
+# If using a proxy (e.g., in restricted regions):
 echo 'LLM_BASE_URL=https://your-proxy-url/v1' >> .env
 
-# 5. 匯入 FAQ 知識庫
+# 5. Import FAQ knowledge base
 python scripts/ingest_kb.py
 ```
 
 ---
 
-## 🎮 操作步驟
+## 🎮 Usage
 
-### 選項 A：CLI 互動模式（推薦快速測試）
+### Option A: CLI Interactive Mode (Recommended for quick testing)
 
 ```bash
 python cli.py
 ```
 
-然後輸入問題測試：
+Then enter questions to test:
 
 ```
-🛒 電商客服 AI Agent
+🛒 E-commerce CS AI Agent
 
-顧客: 退貨需要什麼條件？
+Customer: What are the conditions for returns?
 ┌──────────────┐
-│ 📖 FAQ 問答   │
+│ 📖 FAQ       │
 └──────────────┘
-**AI:** 收到商品 7 天鑑賞期內，保持商品全新未拆封...
+**AI:** Within 7 days of receiving the item, keep it brand new and unopened...
 
-顧客: 你們送貨太慢了，我等了五天了！
+Customer: Your delivery is too slow, I've been waiting five days!
 ┌──────────────┐
-│ ⚠️ 客訴處理   │
+│ ⚠️ Complaint │
 └──────────────┘
-**AI回覆:** 很抱歉讓您有這樣的體驗...
-案件編號: CASE-A1B2C3D4
+**AI Reply:** We apologize for your experience...
+Case ID: CASE-A1B2C3D4
 
-顧客: 叫你們主管出來
+Customer: Let me speak to your manager
 ┌──────────────┐
-│ 👤 轉接人工   │
+│ 👤 Human     │
 └──────────────┘
-我將為您轉接人工客服專員，請稍候...
+I will transfer you to a human agent, please wait...
 
-顧客: quit   ← 離開
+Customer: quit   ← Exit
 ```
 
-### 選項 B：API 模式
+### Option B: API Mode
 
 ```bash
 python main.py
-# 訪問 http://localhost:8000/docs 查看 Swagger API 文檔
+# Visit http://localhost:8000/docs to see Swagger API docs
 ```
 
 ```bash
-# 測試 API
+# Test API
 curl -X POST http://localhost:8000/chat \
   -H "Content-Type: application/json" \
-  -d '{"message": "如何查詢訂單狀態？"}'
+  -d '{"message": "How do I check my order status?"}'
 ```
 
-### 選項 C：Fake Mode（無 API Key 開發）
+### Option C: Fake Mode (Development without API Key)
 
-系統會自動偵測 `.env` 中有無有效的 API Key。若無效，自動啟用 **Fake Mode**：
+The system automatically detects whether a valid API Key exists in `.env`. If invalid, it automatically activates **Fake Mode**:
 
-- Dispatcher 根據關鍵字規則分流
-- Sentiment 根據關鍵字給分數
-- LLM 回覆以模擬文字替代
+- Dispatcher routes based on keyword rules
+- Sentiment scoring based on keywords
+- LLM responses replaced with simulated text
 
-Fake Mode 下所有流程（分流 → 情緒分析 → 升級判斷 → 回覆）都能正常運作，適合開發和展示。
+All processes (routing → sentiment analysis → escalation decision → response) work normally in Fake Mode, making it suitable for development and demos.
 
 ---
 
-## ✅ 最終成果
+## ✅ Results
 
-### 測試驗證
+### Test Verification
 
 ```bash
 python -m pytest tests/ -v
@@ -178,58 +179,58 @@ python -m pytest tests/ -v
 22 passed in 19.56s
 ```
 
-| 測試類別 | 數量 | 說明 |
-|----------|------|------|
-| Unit Tests | 5 | Message、ToolDef、split_markdown 等 |
-| Integration Tests | 5 | LLM client、Sentiment、Knowledge Base |
-| Agent Tests | 4 | FAQ Agent、Complaint Agent（含 escalate） |
-| Dispatcher Tests | 3 | FAQ/客訴/人工 分流 |
+| Test Category | Count | Description |
+|--------------|-------|-------------|
+| Unit Tests | 5 | Message, ToolDef, split_markdown, etc. |
+| Integration Tests | 5 | LLM client, Sentiment, Knowledge Base |
+| Agent Tests | 4 | FAQ Agent, Complaint Agent (incl. escalate) |
+| Dispatcher Tests | 3 | FAQ/Complaint/Human routing |
 | API Tests | 3 | FastAPI health + chat endpoints |
-| E2E Tests | 7 | 完整流程（訂單查詢、退貨政策、客訴等） |
+| E2E Tests | 7 | Full flow (order inquiry, return policy, complaints, etc.) |
 
-### 知識庫內容
+### Knowledge Base Contents
 
-| 文件 | 段落數 | 主題 |
-|------|--------|------|
-| `faq_orders.md` | 4 | 訂單查詢、修改、合併、未到貨 |
-| `faq_shipping.md` | 4 | 配送方式、運費、離島 |
-| `faq_returns.md` | 4 | 退換貨政策、退貨流程、退款 |
-| `faq_payment.md` | 4 | 付款方式、分期、發票 |
-| `policy_complaint.md` | 3 | 客訴處理時效、渠道、升級 |
-| `faq_jd_aftersales.md` | 8 | 京東售後（取件費、總則、7天退貨、發錯貨等） |
-| **合計** | **27** | |
+| File | Paragraphs | Topic |
+|------|-----------|-------|
+| `faq_orders.md` | 4 | Order inquiry, modification, combining, non-delivery |
+| `faq_shipping.md` | 4 | Shipping methods, fees, outlying islands |
+| `faq_returns.md` | 4 | Return/exchange policy, process, refunds |
+| `faq_payment.md` | 4 | Payment methods, installments, invoices |
+| `policy_complaint.md` | 3 | Complaint handling timeline, channels, escalation |
+| `faq_jd_aftersales.md` | 8 | JD.com after-sales (pickup fees, policy, 7-day returns, wrong items, etc.) |
+| **Total** | **27** | |
 
-### 專案結構
+### Project Structure
 
 ```
 ecommerce-agent/
-├── cli.py                    # 互動式 CLI 測試
-├── main.py                   # FastAPI 入口
+├── cli.py                    # Interactive CLI test
+├── main.py                   # FastAPI entry point
 ├── requirements.txt
 ├── .env.example
 ├── assets/
 │   └── architecture.excalidraw
 ├── scripts/
-│   ├── setup.py              # 一鍵初始化
-│   └── ingest_kb.py          # 知識庫匯入腳本
+│   ├── setup.py              # One-click initialization
+│   └── ingest_kb.py          # Knowledge base import script
 ├── data/
-│   ├── knowledge/            # 知識文件（Markdown）
-│   └── chroma_db/            # 自動生成（向量庫）
+│   ├── knowledge/            # Knowledge documents (Markdown)
+│   └── chroma_db/            # Auto-generated (vector store)
 ├── src/
-│   ├── config.py             # 設定管理（Pydantic）
-│   ├── llm_client.py         # LLM 客戶端（含 Fake Mode）
-│   ├── knowledge_base.py     # RAG 知識庫（ChromaDB）
-│   ├── sentiment.py          # 情緒分析模組
-│   ├── tools.py              # 工具定義（search_faq）
-│   ├── agent.py              # FAQ Agent + Complain Agent
-│   ├── complaint_prompts.py  # 客訴提示詞
-│   ├── complaint_workflow.py # 客訴工作流
-│   ├── dispatcher.py         # 主調度器（分流）
+│   ├── config.py             # Settings management (Pydantic)
+│   ├── llm_client.py         # LLM client (incl. Fake Mode)
+│   ├── knowledge_base.py     # RAG knowledge base (ChromaDB)
+│   ├── sentiment.py          # Sentiment analysis module
+│   ├── tools.py              # Tool definitions (search_faq)
+│   ├── agent.py              # FAQ Agent + Complaint Agent
+│   ├── complaint_prompts.py  # Complaint prompts
+│   ├── complaint_workflow.py # Complaint workflow
+│   ├── dispatcher.py         # Main dispatcher (routing)
 │   ├── models.py             # Pydantic schemas
-│   ├── api.py                # FastAPI 服務
-│   ├── monitoring.py         # 日誌與監控
-│   ├── bot_line.py           # LINE Bot 整合（選用）
-│   └── bot_telegram.py       # Telegram Bot 整合（選用）
+│   ├── api.py                # FastAPI service
+│   ├── monitoring.py         # Logging and monitoring
+│   ├── bot_line.py           # LINE Bot integration (optional)
+│   └── bot_telegram.py       # Telegram Bot integration (optional)
 └── tests/
     ├── test_llm_client.py
     ├── test_knowledge_base.py

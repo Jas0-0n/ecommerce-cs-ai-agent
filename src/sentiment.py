@@ -2,21 +2,21 @@
 import json
 from src.llm_client import LLMClient, Message
 
-SENTIMENT_SYSTEM_PROMPT = """你是一個電商客服對話的情緒分析專家。
-請分析以下顧客訊息，輸出 JSON 格式（不要其他文字）：
+SENTIMENT_SYSTEM_PROMPT = """You are a sentiment analysis expert for e-commerce customer service conversations.
+Analyze the following customer message and output JSON format (no other text):
 
 {
-    "sentiment_score": -1.0 到 1.0 的浮點數,
+    "sentiment_score": float from -1.0 to 1.0,
     "urgency": "low" | "medium" | "high",
     "intent": "faq" | "complaint" | "refund_request" | "cancel_request" | "other",
-    "reason": "簡短分析原因（10字以內）"
+    "reason": "Brief analysis reason"
 }
 
-分數定義：
-- 1.0 = 非常正面（感謝、滿意）
-- 0.0 = 中性
-- -0.5 = 不滿（抱怨產品/服務）
-- -1.0 = 極度憤怒（投訴、罵人、威脅）
+Score definitions:
+- 1.0 = Very positive (gratitude, satisfaction)
+- 0.0 = Neutral
+- -0.5 = Dissatisfied (complaining about product/service)
+- -1.0 = Extremely angry (complaints, insults, threats)
 """
 
 
@@ -38,5 +38,5 @@ class SentimentAnalyzer:
                 "sentiment_score": 0.0,
                 "urgency": "medium",
                 "intent": "other",
-                "reason": "解析失敗"
+                "reason": "parse failed"
             }

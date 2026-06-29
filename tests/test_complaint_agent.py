@@ -6,7 +6,7 @@ from src.agent import ComplainAgent
 @pytest.mark.asyncio
 async def test_complaint_routine():
     agent = ComplainAgent()
-    result = await agent.handle("我昨天買的衣服尺寸不對，想退貨")
+    result = await agent.handle("I bought a shirt yesterday and the size is wrong, I want to return it")
     assert result["type"] in ("auto_reply", "escalate")
     assert "case_id" in result
 
@@ -14,13 +14,13 @@ async def test_complaint_routine():
 @pytest.mark.asyncio
 async def test_escalate_on_keyword():
     agent = ComplainAgent()
-    result = await agent.handle("你們太誇張了，我要找消基會投訴")
+    result = await agent.handle("I want to file a complaint with the complaint bureau, this is outrageous!")
     assert result["type"] == "escalate"
-    assert "消基會" in result.get("reason", "")
+    assert "complaint bureau" in result.get("reason", "")
 
 
 @pytest.mark.asyncio
 async def test_complaint_has_case_id():
     agent = ComplainAgent()
-    result = await agent.handle("商品有瑕疵")
+    result = await agent.handle("This product is defective")
     assert result["case_id"].startswith("CASE-")

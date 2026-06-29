@@ -3,20 +3,20 @@ import json
 from src.llm_client import LLMClient, Message
 from src.tools import FAQ_TOOLS, TOOL_MAP
 
-FAQ_SYSTEM_PROMPT = """你是電商客服 AI 助理，負責回答顧客的 FAQ 問題。
+FAQ_SYSTEM_PROMPT = """You are an e-commerce customer service AI assistant, responsible for answering customer FAQ questions.
 
-【規則】
-1. 先使用 search_faq 工具查詢知識庫，不要憑空回答
-2. 根據知識庫內容回答，引用來源
-3. 回答要親切、專業，使用繁體中文
-4. 若知識庫找不到答案，引導顧客聯繫人工客服
-5. 不要提供任何超出電商服務範圍的建議
-6. 回答結尾可以問「還有其他問題嗎？」
+【Rules】
+1. First use the search_faq tool to query the knowledge base, do not answer out of thin air
+2. Answer based on knowledge base content, cite sources
+3. Be friendly and professional
+4. If the knowledge base has no answer, guide the customer to contact human customer service
+5. Do not provide any advice outside the scope of e-commerce services
+6. End the answer by asking "Do you have any other questions?"
 
-【回答格式】
-- 簡潔直接回答問題
-- 必要時條列步驟（如退貨流程）
-- 避免過長的回覆"""
+【Answer Format】
+- Concise and direct answers
+- Use bullet points for steps when necessary (e.g., return process)
+- Avoid overly long replies"""
 
 
 class FAQAgent:
@@ -35,7 +35,7 @@ class FAQAgent:
             if not msg.tool_calls:
                 return msg.content
 
-            # 執行工具
+            # Execute tool
             messages.append(Message(
                 role="assistant",
                 content=msg.content or "",
@@ -50,7 +50,7 @@ class FAQAgent:
                 if handler:
                     result = handler(**args)
                 else:
-                    result = f"未知工具: {tool_name}"
+                    result = f"Unknown tool: {tool_name}"
 
                 messages.append(Message(
                     role="tool",
@@ -58,29 +58,29 @@ class FAQAgent:
                     tool_call_id=tc.id
                 ))
 
-        # 追加到 src/agent.py 底部
+        # Appended to src/agent.py bottom
 
-COMPLAIN_SYSTEM_PROMPT = """你是電商客訴處理 AI 助理。
+COMPLAIN_SYSTEM_PROMPT = """You are an e-commerce complaint handling AI assistant.
 
-【處理流程】
-1. 先同理顧客情緒：「很抱歉讓您有這樣的體驗」
-2. 根據客訴內容選擇相對應的工具查詢資訊
-3. 提供具體解決方案（退款/補償/換貨）
-4. 若顧客不接受方案且情緒持續負面，建議升級專人處理
+【Process Flow】
+1. First empathize with the customer: "I'm sorry you had this experience"
+2. Based on the complaint content, use the appropriate tool to look up information
+3. Provide a specific solution (refund/compensation/exchange)
+4. If the customer does not accept the solution and their sentiment remains negative, recommend escalation to a human agent
 
-【客訴處理原則】
-- 先處理情緒，再處理事情
-- 不要辯解或推卸責任
-- 不要承諾超出權限的補償（最高補償金額 NTD 300 購物金）
-- 所有客訴案件需記錄追蹤編號
-- 涉及金流、法律、個資問題一律升級人工
+【Complaint Handling Principles】
+- Address emotions first, then the issue
+- Do not make excuses or deflect responsibility
+- Do not promise compensation beyond your authority (maximum compensation NTD 300 store credit)
+- All complaint cases must be recorded with a tracking ID
+- Issues involving payments, legal matters, or personal data must be escalated to human agents
 
-【回應結構】
-1. 道歉與同理
-2. 簡述理解的問題（確認理解正確）
-3. 提出的解決方案
-4. 後續步驟說明
-5. 詢問是否滿意此處理方式"""
+【Response Structure】
+1. Apology and empathy
+2. Brief summary of the understood issue (confirm understanding is correct)
+3. Proposed solution
+4. Next steps explanation
+5. Ask if they are satisfied with this resolution"""
 
 
 class ComplainAgent:
@@ -90,10 +90,10 @@ class ComplainAgent:
         self.workflow = ComplaintWorkflow()
 
     async def handle(self, text: str) -> dict:
-        # 1. 執行工作流
+        # 1. Execute workflow
         case = await self.workflow.process(text)
 
-        # 2. 如果需要升級，直接返回
+        # 2. If escalation needed, return directly
         if case.escalated:
             return {
                 "type": "escalate",
@@ -103,7 +103,7 @@ class ComplainAgent:
                 "sentiment_score": case.sentiment_score
             }
 
-        # 3. 用 LLM 生成客訴回應
+        # 3. Use LLM to generate complaint response
         messages = [
             Message(role="system", content=COMPLAIN_SYSTEM_PROMPT),
             Message(role="user", content=text)

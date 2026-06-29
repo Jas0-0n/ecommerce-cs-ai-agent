@@ -1,22 +1,22 @@
 # data/knowledge/faq_shipping.md
-# 運送與物流 FAQ
+# Shipping & Logistics FAQ
 
-## Q: 運送方式有哪些？
-A: 我們提供：
-   - 宅配（黑貓 / 新竹物流）：3-5 工作天
-   - 超商取貨（7-11 / 全家）：3-5 工作天
-   - 宅配貨到付款：3-5 工作天
-   滿 $499 免運費。
+## Q: What shipping methods are available?
+A: We offer:
+   - Home delivery (Black Cat / HCT Logistics): 3-5 business days
+   - Convenience store pickup (7-11 / FamilyMart): 3-5 business days
+   - Home delivery with cash on delivery: 3-5 business days
+   Free shipping on orders over $499 NTD.
 
-## Q: 運費怎麼算？
-A: 訂單滿 $499 免運費。
-   未滿 $499 運費 $80。
-   貨到付款加收 $30 手續費。
+## Q: How are shipping fees calculated?
+A: Orders over $499 NTD qualify for free shipping.
+   Orders under $499 NTD have a shipping fee of $80 NTD.
+   Cash on delivery incurs an additional $30 NTD processing fee.
 
-## Q: 可以指定送貨時間嗎？
-A: 宅配可備註希望時段（上午/下午/晚上），但不保證。
-   超商取貨則無時間限制，到貨後 7 天內領取即可。
+## Q: Can I schedule a delivery time?
+A: Home delivery can include a preferred time slot note (morning/afternoon/evening), but it is not guaranteed.
+   Convenience store pickup has no time restrictions; just pick up within 7 days of arrival.
 
-## Q: 可以寄送到離島嗎？
-A: 可配送至澎湖、金門、馬祖等離島，運費 $150。
-   配送時間約 5-7 工作天。
+## Q: Can you ship to outlying islands?
+A: Delivery is available to Penghu, Kinmen, Matsu, and other outlying islands for a shipping fee of $150 NTD.
+   Delivery time is approximately 5-7 business days.

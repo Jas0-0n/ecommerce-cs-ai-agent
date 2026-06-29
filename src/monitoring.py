@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 class AgentMonitor:
-    """簡單的 Agent 日誌系統"""
+    """Simple Agent logging system"""
 
     def __init__(self, log_dir="logs"):
         self.log_dir = Path(log_dir)
@@ -18,7 +18,7 @@ class AgentMonitor:
         )
         self.logger = logging.getLogger("ecommerce_agent")
 
-        # 也寫入檔案
+        # Also write to file
         fh = logging.FileHandler(self.log_dir / "agent.log", encoding="utf-8")
         fh.setFormatter(logging.Formatter("%(asctime)s | %(levelname)s | %(message)s"))
         self.logger.addHandler(fh)
@@ -35,10 +35,10 @@ class AgentMonitor:
         self.logger.info(json.dumps(record, ensure_ascii=False))
 
     def print_stats(self):
-        """輸出統計摘要"""
+        """Print statistical summary"""
         log_file = self.log_dir / "agent.log"
         if not log_file.exists():
-            print("尚無資料")
+            print("No data available")
             return
 
         total = 0
@@ -58,9 +58,9 @@ class AgentMonitor:
                 except Exception:
                     pass
 
-        print(f"\n📊 客服 Agent 統計")
-        print(f"總處理次數: {total}")
+        print(f"\n📊 Customer Service Agent Statistics")
+        print(f"Total processed: {total}")
         for r, c in routes.items():
-            print(f"  - {r}: {c}次 ({c/total*100:.0f}%)")
+            print(f"  - {r}: {c} ({c/total*100:.0f}%)")
         if total:
-            print(f"升級人工: {escalations}次 ({escalations/total*100:.0f}%)")
+            print(f"Escalations to human: {escalations} ({escalations/total*100:.0f}%)")

@@ -5,8 +5,8 @@ from src.dispatcher import Dispatcher
 from src.models import ChatRequest, ChatResponse
 
 app = FastAPI(
-    title="電商客服 AI Agent API",
-    description="FAQ 問答 & 客訴處理",
+    title="E-commerce CS AI Agent API",
+    description="FAQ Q&A & Complaint Handling",
     version="1.0.0"
 )
 

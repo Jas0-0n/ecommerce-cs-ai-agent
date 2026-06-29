@@ -10,24 +10,24 @@ console = Console()
 
 def print_route_info(route: str):
     colors = {"faq": "blue", "complaint": "red", "agent": "yellow"}
-    labels = {"faq": "📖 FAQ 問答", "complaint": "⚠️ 客訴處理", "agent": "👤 轉接人工"}
+    labels = {"faq": "📖 FAQ", "complaint": "⚠️ Complaint", "agent": "👤 Human Transfer"}
     color = colors.get(route, "white")
     label = labels.get(route, route)
     console.print(Panel(f"[bold {color}]{label}[/]", expand=False))
 
 
 async def main():
-    console.print("[bold cyan]🛒 電商客服 AI Agent[/]")
-    console.print("[dim]輸入問題 / 客訴，輸入 'quit' 離開[/]\n")
+    console.print("[bold cyan]🛒 E-commerce CS AI Agent[/]")
+    console.print("[dim]Enter your question / complaint, type 'quit' to exit[/]\n")
 
     dispatcher = Dispatcher()
 
     while True:
-        text = console.input("[bold green]顧客:[/] ")
+        text = console.input("[bold green]Customer:[/] ")
         if text.lower() in ("quit", "exit", "q"):
             break
 
-        with console.status("[bold yellow]AI 思考中..."):
+        with console.status("[bold yellow]AI thinking..."):
             result = await dispatcher.handle(text)
 
         print_route_info(result["route"])
@@ -36,13 +36,13 @@ async def main():
             console.print(Markdown(f"\n**AI:** {result['response']}"))
         elif result["route"] == "complaint":
             if result.get("type") == "escalate":
-                console.print(f"[bold red]⚠️ 已升級人工客服[/]")
-                console.print(f"[red]案件編號: {result.get('case_id', 'N/A')}[/]")
-                console.print(f"[red]原因: {result.get('reason', '')}[/]")
+                console.print(f"[bold red]⚠️ Escalated to human agent[/]")
+                console.print(f"[red]Case ID: {result.get('case_id', 'N/A')}[/]")
+                console.print(f"[red]Reason: {result.get('reason', '')}[/]")
             else:
-                console.print(Markdown(f"\n**AI回覆:** {result.get('response', '')}"))
+                console.print(Markdown(f"\n**AI Reply:** {result.get('response', '')}"))
                 if result.get("case_id"):
-                    console.print(f"[dim]案件編號: {result['case_id']}[/]")
+                    console.print(f"[dim]Case ID: {result['case_id']}[/]")
         else:  # agent
             console.print(f"[yellow]{result.get('response', '')}[/]")
 

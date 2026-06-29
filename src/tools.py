@@ -7,23 +7,23 @@ kb = FAQKnowledgeBase()
 
 
 def search_faq_handler(query: str, top_k: int = 3) -> str:
-    """搜尋 FAQ 知識庫"""
+    """Search the FAQ knowledge base"""
     results = kb.search(query, top_k=top_k)
     context = kb.format_context(results)
     return context
 
 
-# 工具定義（之後會動態擴充）
+# Tool definitions (can be dynamically extended later)
 FAQ_TOOLS = [
     ToolDef(
         name="search_faq",
-        description="搜尋電商 FAQ 知識庫，取得常見問題的官方回答",
+        description="Search the e-commerce FAQ knowledge base to get official answers to common questions",
         parameters={
             "type": "object",
             "properties": {
                 "query": {
                     "type": "string",
-                    "description": "要搜尋的問題關鍵字"
+                    "description": "Search keywords for the question"
                 }
             },
             "required": ["query"]
@@ -32,5 +32,5 @@ FAQ_TOOLS = [
     )
 ]
 
-# 工具查找表
+# Tool lookup table
 TOOL_MAP: dict[str, Callable] = {t.name: t.handler for t in FAQ_TOOLS}

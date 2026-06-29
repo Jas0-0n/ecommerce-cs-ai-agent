@@ -1,9 +1,8 @@
 # scripts/ingest_kb.py
 """
-將 data/knowledge/ 下的 markdown 文件
-按標題分割後匯入向量資料庫
+Split markdown files in data/knowledge/ by headings, then import into the vector database
 
-用法: python scripts/ingest_kb.py
+Usage: python scripts/ingest_kb.py
 """
 import re
 import sys
@@ -14,15 +13,15 @@ from src.knowledge_base import FAQKnowledgeBase
 
 
 def split_markdown_by_heading(text: str, source: str) -> list[tuple[str, dict]]:
-    """將 markdown 按 ## Q: 標題分割成段落"""
+    """Split markdown into paragraphs by ## Q: headings"""
     chunks = []
-    # 匹配 ## Q: 開頭的段落
+    # Match paragraphs starting with ## Q:
     pattern = r'(## Q:.*?)(?=## Q:|\Z)'
     matches = re.findall(pattern, text, re.DOTALL)
     for m in matches:
         m = m.strip()
         if m:
-            # 提取 Q 作為 metadata
+            # Extract Q as metadata
             q_match = re.search(r'## (Q:.*?)(?:\n|$)', m)
             q_text = q_match.group(1) if q_match else ""
             chunks.append((m, {"source": source, "question": q_text}))
@@ -46,9 +45,9 @@ def main():
 
     if all_chunks:
         kb.add_documents(all_chunks, all_metadatas)
-        print(f"\n✅ 共匯入 {len(all_chunks)} 個段落到向量資料庫")
+        print(f"\n✅ Imported {len(all_chunks)} paragraphs into the vector database")
     else:
-        print("⚠️  沒有找到任何段落")
+        print("⚠️  No paragraphs found")
 
 
 if __name__ == "__main__":

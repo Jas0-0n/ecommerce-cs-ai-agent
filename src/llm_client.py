@@ -21,11 +21,11 @@ class ToolDef:
     name: str
     description: str
     parameters: dict  # JSON schema
-    handler: Callable  # 實際執行函式
+    handler: Callable  # Actual execution function
 
 
 class FakeMessage:
-    """模擬的 OpenAI 回覆，用於開發時無需 API key"""
+    """Simulated OpenAI response, used during development without an API key"""
     def __init__(self, text: str):
         self.content = text
         self.tool_calls = None
@@ -47,20 +47,27 @@ class LLMClient:
             )
 
     def _fake_reply(self, messages: list[Message], tools=None) -> FakeMessage:
-        """回傳模擬的 LLM 回覆，讓開發時能跑流程"""
+        """Return a simulated LLM reply so the flow works during development"""
         last_user = next((m.content for m in reversed(messages) if m.role == "user"), "")
         last_system = next((m.content for m in messages if m.role == "system"), "")
 
-        # 判斷客訴關鍵字
-        complaint_keywords = ["客訴", "太慢", "很差", "很爛", "瑕疵", "壞的", "詐騙",
-                              "等了一個禮拜", "等了一週", "投訴", "不滿"]
-        has_complaint = any(kw in last_user for kw in complaint_keywords)
+        # Check for complaint keywords
+        complaint_keywords = ["complaint", "too slow", "terrible", "defective", "broken", "scam",
+                              "waited a week", "waited one week", "poor quality", "unsatisfied"]
+        has_complaint = any(kw in last_user.lower() for kw in complaint_keywords)
 
-        # 高風險關鍵字（應升級）
-        escalate_keywords = ["找記者", "告你", "告", "報警", "找主管", "叫主管", "主管", "消基會", "法律途徑"]
-        has_escalate = any(kw in last_user for kw in escalate_keywords)
+        # High-risk keywords (should escalate)
+        escalate_keywords = ["sue", "lawyer", "police", "manager", "supervisor", "complaint bureau", "legal action"]
+        has_escalate = any(kw in last_user.lower() for kw in escalate_keywords)
 
-        if "情緒分析" in last_system:
+        # Also support Chinese keywords for backward compatibility
+        cn_complaint_kw = ["客訴", "太慢", "很差", "很爛", "瑕疵", "壞的", "詐騙",
+                          "等了一個禮拜", "等了一週", "投訴", "不滿"]
+        cn_escalate_kw = ["找記者", "告你", "告", "報警", "找主管", "叫主管", "主管", "消基會", "法律途徑"]
+        has_complaint = has_complaint or any(kw in last_user for kw in cn_complaint_kw)
+        has_escalate = has_escalate or any(kw in last_user for kw in cn_escalate_kw)
+
+        if "sentiment" in last_system.lower() or "情緒分析" in last_system:
             score = -0.8 if has_escalate else (-0.5 if has_complaint else 0.0)
             urgency = "high" if has_escalate else ("medium" if has_complaint else "low")
             intent = "complaint" if (has_complaint or has_escalate) else "faq"
@@ -68,20 +75,20 @@ class LLMClient:
                 "sentiment_score": score,
                 "urgency": urgency,
                 "intent": intent,
-                "reason": "高風險客訴" if has_escalate else ("客戶抱怨" if has_complaint else "一般查詢")
+                "reason": "High-risk complaint" if has_escalate else ("Customer complaint" if has_complaint else "General inquiry")
             }))
-        elif "分流系統" in last_system:
+        elif "dispatch" in last_system.lower() or "分流" in last_system.lower() or "分流系統" in last_system:
             route = "complaint" if has_complaint else ("agent" if has_escalate else "faq")
             return FakeMessage(json.dumps({
                 "route": route,
-                "reason": "偵測到客訴內容" if has_complaint else "一般查詢",
+                "reason": "Complaint detected" if has_complaint else "General inquiry",
                 "confidence": 0.9
             }))
         else:
-            return FakeMessage(f"這是模擬回覆。您的問題：「{last_user[:30]}」已收到，將由客服團隊處理。")
+            return FakeMessage(f"This is a simulated reply. Your message: 「{last_user[:30]}」has been received and will be handled by our customer service team.")
 
     def chat(self, messages: list[Message], tools: list[ToolDef] | None = None):
-        """同步呼叫，回傳 assistant 回覆"""
+        """Synchronous call, returns assistant reply"""
         if self._fake_mode:
             return self._fake_reply(messages, tools)
 
@@ -106,7 +113,7 @@ class LLMClient:
         return resp.choices[0].message
 
     async def async_chat(self, messages: list[Message], tools: list[ToolDef] | None = None):
-        """非同步版本"""
+        """Async version"""
         if self._fake_mode:
             return self._fake_reply(messages, tools)
 

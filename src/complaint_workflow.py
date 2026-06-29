@@ -27,24 +27,24 @@ class ComplaintWorkflow:
     async def process(self, text: str) -> ComplaintCase:
         case = ComplaintCase(customer_text=text)
 
-        # 1. 情緒分析
+        # 1. Sentiment analysis
         sentiment = self.analyzer.analyze(text)
         case.sentiment_score = sentiment["sentiment_score"]
         case.urgency = sentiment["urgency"]
         case.intent = sentiment.get("intent", "complaint")
 
-        # 2. 檢查是否需立即升級（關鍵字比對）
+        # 2. Check if immediate escalation is needed (keyword match)
         for keyword in self.escalate_keywords:
-            if keyword in text:
+            if keyword.lower() in text.lower():
                 case.escalated = True
-                case.escalate_reason = f"偵測到高風險關鍵字: {keyword}"
+                case.escalate_reason = f"High-risk keyword detected: {keyword}"
                 return case
 
-        # 3. 情緒分數過低也升級
+        # 3. Sentiment score too low also triggers escalation
         from src.config import settings
         if sentiment["sentiment_score"] <= settings.auto_resolve_sentiment_threshold:
             case.escalated = True
-            case.escalate_reason = f"情緒分數過低 ({sentiment['sentiment_score']})"
+            case.escalate_reason = f"Sentiment score too low ({sentiment['sentiment_score']})"
             return case
 
         return case

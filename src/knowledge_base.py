@@ -17,7 +17,7 @@ class FAQKnowledgeBase:
         )
 
     def add_documents(self, chunks: list[str], metadatas: list[dict] | None = None):
-        """批次新增文件段落到向量庫"""
+        """Add document chunks to the vector store in batch"""
         ids = [f"doc_{i}" for i in range(len(chunks))]
         embeddings = self.encoder.encode(chunks).tolist()
         self.collection.add(
@@ -28,7 +28,7 @@ class FAQKnowledgeBase:
         )
 
     def search(self, query: str, top_k: int = 3) -> list[dict]:
-        """搜尋最相關的 FAQ 段落"""
+        """Search for the most relevant FAQ paragraphs"""
         query_embedding = self.encoder.encode(query).tolist()
         results = self.collection.query(
             query_embeddings=[query_embedding],
@@ -44,9 +44,9 @@ class FAQKnowledgeBase:
         return docs
 
     def format_context(self, results: list[dict]) -> str:
-        """將搜尋結果格式化為 LLM 可用的 context"""
+        """Format search results into LLM-usable context"""
         sections = []
         for i, r in enumerate(results, 1):
-            source = r["metadata"].get("source", "知識庫")
-            sections.append(f"[參考 {i} - 來源: {source}]\n{r['content']}")
+            source = r["metadata"].get("source", "knowledge_base")
+            sections.append(f"[Reference {i} - Source: {source}]\n{r['content']}")
         return "\n\n".join(sections)
