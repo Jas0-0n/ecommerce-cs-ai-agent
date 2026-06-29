@@ -33,9 +33,9 @@
 
 ## 🔄 Workflow
 
-![系統架構圖](https://excalidraw.com/#json=yidd-zmd1iQ1kjbfbmFTt,O60o5HpEWLt4AradRAPdkw)
+![系統架構圖](assets/workflow.svg)
 
-> 📌 點擊上方 Excalidraw 圖示可放大/編輯流程圖
+> 📌 系統流程：使用者輸入 → Dispatcher 分流 → FAQ Agent 或客訴處理 Agent → 回覆使用者
 
 ### 流程說明
 

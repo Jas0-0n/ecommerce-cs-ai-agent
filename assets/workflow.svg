@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 620" font-family="Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#555"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#16a34a"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="620" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="35" text-anchor="middle" font-size="20" font-weight="bold" fill="#1e293b">電商客服 AI Agent 工作流程</text>
+
+  <!-- ========== 使用者輸入 ========== -->
+  <rect x="300" y="55" width="200" height="40" rx="20" fill="#3b82f6" stroke="#2563eb" stroke-width="2"/>
+  <text x="400" y="80" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">👤 使用者輸入</text>
+
+  <line x1="400" y1="95" x2="400" y2="125" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ========== Dispatcher ========== -->
+  <rect x="270" y="125" width="260" height="45" rx="8" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+  <text x="400" y="142" text-anchor="middle" font-size="13" fill="#fff" font-weight="bold">🔀 Dispatcher 分流</text>
+  <text x="400" y="158" text-anchor="middle" font-size="10" fill="#e9d5ff">LLM 意圖分類 + 情緒分析雙重確認</text>
+
+  <line x1="400" y1="170" x2="400" y2="200" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ========== 分流判定 ========== -->
+  <polygon points="400,200 500,235 400,270 300,235" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="400" y="239" text-anchor="middle" font-size="13" fill="#92400e" font-weight="bold">分流判定</text>
+
+  <!-- FAQ 分支 -->
+  <line x1="300" y1="235" x2="150" y2="235" stroke="#16a34a" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="220" y="225" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="bold">FAQ</text>
+
+  <line x1="150" y1="235" x2="150" y2="285" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- FAQ Agent -->
+  <rect x="40" y="285" width="220" height="55" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="150" y="307" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">📖 FAQ Agent</text>
+  <text x="150" y="325" text-anchor="middle" font-size="10" fill="#166534">搜尋知識庫 → 引用回答</text>
+
+  <line x1="150" y1="340" x2="150" y2="375" stroke="#16a34a" stroke-width="2" marker-end="url(#arrow-green)"/>
+
+  <!-- RAG 知識庫 -->
+  <rect x="40" y="375" width="220" height="50" rx="8" fill="#ccfbf1" stroke="#14b8a6" stroke-width="2"/>
+  <text x="150" y="397" text-anchor="middle" font-size="12" fill="#115e59" font-weight="bold">📚 RAG 向量知識庫</text>
+  <text x="150" y="414" text-anchor="middle" font-size="10" fill="#115e59">6 份文件 · 27 個段落</text>
+
+  <!-- 客訴分支 -->
+  <line x1="500" y1="235" x2="650" y2="235" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="580" y="225" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="bold">客訴</text>
+
+  <line x1="650" y1="235" x2="650" y2="285" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 客訴處理 Agent -->
+  <rect x="540" y="285" width="220" height="55" rx="8" fill="#fce4ec" stroke="#e53935" stroke-width="2"/>
+  <text x="650" y="307" text-anchor="middle" font-size="13" fill="#b71c1c" font-weight="bold">⚠️ 客訴處理 Agent</text>
+  <text x="650" y="325" text-anchor="middle" font-size="10" fill="#b71c1c">情緒分析 + 分級判定</text>
+
+  <line x1="650" y1="340" x2="650" y2="375" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 升級判定 -->
+  <polygon points="650,375 730,410 650,445 570,410" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+  <text x="650" y="408" text-anchor="middle" font-size="12" fill="#92400e" font-weight="bold">升級判定?</text>
+  <text x="650" y="422" text-anchor="middle" font-size="10" fill="#92400e">關鍵字 / 情緒分數</text>
+
+  <!-- 升級分支（是） -->
+  <line x1="570" y1="410" x2="400" y2="410" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="490" y="400" text-anchor="middle" font-size="11" fill="#dc2626" font-weight="bold">⚠️ 是</text>
+
+  <line x1="400" y1="410" x2="400" y2="460" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+
+  <!-- 轉接人工 -->
+  <rect x="290" y="460" width="220" height="50" rx="8" fill="#fed7aa" stroke="#f97316" stroke-width="2"/>
+  <text x="400" y="482" text-anchor="middle" font-size="13" fill="#9a3412" font-weight="bold">👤 轉接人工客服</text>
+  <text x="400" y="498" text-anchor="middle" font-size="10" fill="#9a3412">案件編號 + 原因記錄</text>
+
+  <!-- 自動回覆分支（否） -->
+  <line x1="730" y1="410" x2="730" y2="300" stroke="#16a34a" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="745" y="355" font-size="11" fill="#16a34a" font-weight="bold">否</text>
+
+  <!-- 自動回覆 -->
+  <rect x="620" y="460" width="220" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+  <text x="730" y="482" text-anchor="middle" font-size="13" fill="#166534" font-weight="bold">✅ 自動回覆</text>
+  <text x="730" y="498" text-anchor="middle" font-size="10" fill="#166534">同理 + 方案 + 追蹤編號</text>
+
+  <!-- 匯集到輸出 -->
+  <!-- FAQ 輸出線 -->
+  <line x1="150" y1="425" x2="400" y2="520" stroke="#555" stroke-width="2" stroke-dasharray="4,4"/>
+  <!-- 自動回覆輸出線 -->
+  <line x1="730" y1="510" x2="400" y2="520" stroke="#555" stroke-width="2" stroke-dasharray="4,4"/>
+  <!-- 轉接人工輸出線 -->
+  <line x1="400" y1="510" x2="400" y2="535" stroke="#555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- ========== 輸出 ========== -->
+  <rect x="290" y="535" width="220" height="40" rx="20" fill="#3b82f6" stroke="#2563eb" stroke-width="2"/>
+  <text x="400" y="560" text-anchor="middle" font-size="14" fill="#fff" font-weight="bold">📤 回覆使用者</text>
+
+  <!-- Footer -->
+  <text x="400" y="610" text-anchor="middle" font-size="10" fill="#94a3b8">支援 CLI · FastAPI · LINE Bot · Telegram Bot</text>
+</svg>
