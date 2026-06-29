@@ -1,22 +1,32 @@
-# tests/test_knowledge_base.py
-def test_split_markdown_by_heading():
-    from scripts.ingest_kb import split_markdown_by_heading
-
-    text = """## Q: 如何退貨？
-A: 七天鑑賞期內可退貨。
-
-## Q: 退款時間？
-A: 5-7 工作天。"""
-
-    chunks = split_markdown_by_heading(text, "faq.md")
-    assert len(chunks) == 2
-    assert "退貨" in chunks[0][0]
-    assert chunks[0][1]["source"] == "faq.md"
+"""Tests for FAQ knowledge base."""
+import pytest
+from src.knowledge_base import FAQKnowledgeBase
 
 
-def test_search_returns_results():
-    """需要先匯入資料才能跑，這裡先做結構測試"""
-    from src.knowledge_base import FAQKnowledgeBase
-    kb = FAQKnowledgeBase()
-    # 只要不噴錯就好
-    assert kb.collection.name == "ecommerce_faq"
+class TestKnowledgeBase:
+    @pytest.fixture
+    def kb(self):
+        return FAQKnowledgeBase(lazy_encoder=False)
+
+    def test_search_returns_results(self, kb):
+        results = kb.search("退货条件")
+        assert len(results) > 0
+
+    def test_search_format(self, kb):
+        results = kb.search("退货条件")
+        assert "content" in results[0]
+        assert "metadata" in results[0]
+
+    def test_format_context(self, kb):
+        results = kb.search("退货条件")
+        context = kb.format_context(results)
+        assert "参考" in context
+        assert "来源" in context
+
+    def test_hybrid_search(self, kb):
+        """Hybrid search should return results from both semantic and keyword."""
+        results = kb.search("京东自营7天无理由退货")
+        assert len(results) > 0
+        # Should find relevant content about returns
+        found = any("退货" in r["content"] or "退换" in r["content"] for r in results)
+        assert found

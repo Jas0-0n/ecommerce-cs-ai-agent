@@ -1,22 +1,29 @@
-# src/agent.py
 import json
 from src.llm_client import LLMClient, Message
 from src.tools import FAQ_TOOLS, TOOL_MAP
 
-FAQ_SYSTEM_PROMPT = """You are an e-commerce customer service AI assistant, responsible for answering customer FAQ questions.
+FAQ_SYSTEM_PROMPT = """你是一个电商客服AI助手，负责回答客户的常见问题。
 
-【Rules】
-1. First use the search_faq tool to query the knowledge base, do not answer out of thin air
-2. Answer based on knowledge base content, cite sources
-3. Be friendly and professional
-4. If the knowledge base has no answer, guide the customer to contact human customer service
-5. Do not provide any advice outside the scope of e-commerce services
-6. End the answer by asking "Do you have any other questions?"
+【规则】
+1. 先使用 search_faq 工具查询知识库，不要凭空回答
+2. 根据知识库内容回答，引用来源
+3. 语气友好专业
+4. 如果知识库没有答案，引导客户联系人工客服
+5. 不要提供电商服务范围之外的建议
+6. 回答结尾询问"请问还有其他问题吗？"
 
-【Answer Format】
-- Concise and direct answers
-- Use bullet points for steps when necessary (e.g., return process)
-- Avoid overly long replies"""
+【回答格式】
+- 简洁直接回答
+- 步骤类问题用编号列表
+- 避免过长的回复
+
+【示例】
+用户：退货要什么条件？
+回答：根据退货政策，收货后7天内可申请无理由退货，商品需保持原包装完好、未拆封使用。部分商品不适用（如定制类、生鲜类、数字商品）。请问还有其他问题吗？
+
+用户：物流大概几天到？
+回答：普通快递一般3-5个工作日送达，偏远地区可能需要5-7天。京东自营商品支持次日达/当日达服务。请问还有其他问题吗？
+"""
 
 
 class FAQAgent:
@@ -45,12 +52,8 @@ class FAQAgent:
             for tc in msg.tool_calls:
                 tool_name = tc.function.name
                 args = json.loads(tc.function.arguments)
-
                 handler = TOOL_MAP.get(tool_name)
-                if handler:
-                    result = handler(**args)
-                else:
-                    result = f"Unknown tool: {tool_name}"
+                result = handler(**args) if handler else f"未知工具: {tool_name}"
 
                 messages.append(Message(
                     role="tool",
@@ -58,29 +61,82 @@ class FAQAgent:
                     tool_call_id=tc.id
                 ))
 
-        # Appended to src/agent.py bottom
+        return "抱歉，暂时无法回答您的问题，请联系人工客服。"
 
-COMPLAIN_SYSTEM_PROMPT = """You are an e-commerce complaint handling AI assistant.
+    async def answer_stream(self, question: str, max_turns: int = 5):
+        """Streaming version — yields content chunks."""
+        messages = [
+            Message(role="system", content=FAQ_SYSTEM_PROMPT),
+            Message(role="user", content=question)
+        ]
 
-【Process Flow】
-1. First empathize with the customer: "I'm sorry you had this experience"
-2. Based on the complaint content, use the appropriate tool to look up information
-3. Provide a specific solution (refund/compensation/exchange)
-4. If the customer does not accept the solution and their sentiment remains negative, recommend escalation to a human agent
+        for turn in range(max_turns):
+            last_msg = None
+            for chunk in self.llm.chat_stream(messages, tools=FAQ_TOOLS):
+                last_msg = chunk
+                if isinstance(chunk, str):
+                    yield chunk
 
-【Complaint Handling Principles】
-- Address emotions first, then the issue
-- Do not make excuses or deflect responsibility
-- Do not promise compensation beyond your authority (maximum compensation NTD 300 store credit)
-- All complaint cases must be recorded with a tracking ID
-- Issues involving payments, legal matters, or personal data must be escalated to human agents
+            if last_msg is None:
+                yield "抱歉，暂时无法回答您的问题。"
+                return
 
-【Response Structure】
-1. Apology and empathy
-2. Brief summary of the understood issue (confirm understanding is correct)
-3. Proposed solution
-4. Next steps explanation
-5. Ask if they are satisfied with this resolution"""
+            # Check if tool calls were made
+            if hasattr(last_msg, 'tool_calls') and last_msg.tool_calls:
+                messages.append(Message(
+                    role="assistant",
+                    content=last_msg.content or "",
+                    tool_calls=last_msg.tool_calls
+                ))
+                for tc in last_msg.tool_calls:
+                    tool_name = tc.function.name
+                    args = json.loads(tc.function.arguments)
+                    handler = TOOL_MAP.get(tool_name)
+                    result = handler(**args) if handler else f"未知工具: {tool_name}"
+                    messages.append(Message(
+                        role="tool",
+                        content=result,
+                        tool_call_id=tc.id
+                    ))
+                continue  # next turn with tool results
+            else:
+                return  # done, content already yielded
+
+        yield "抱歉，暂时无法回答您的问题，请联系人工客服。"
+
+
+COMPLAIN_SYSTEM_PROMPT = """你是一个电商投诉处理AI助手。
+
+【流程】
+1. 先共情安抚客户："非常抱歉给您带来了不好的体验"
+2. 根据投诉内容，查找相关信息提供解决方案
+3. 提供具体解决方案（退款/补偿/换货）
+4. 如果客户不接受方案且情绪仍然负面，建议转人工
+
+【处理原则】
+- 先处理情绪，再处理问题
+- 不推卸责任、不找借口
+- 补偿上限：50元店铺优惠券（超出需转人工）
+- 所有投诉必须记录追踪编号
+- 涉及支付、法律、个人信息的问题必须转人工
+
+【回复结构】
+1. 道歉和共情
+2. 简述理解的问题（确认理解正确）
+3. 提出解决方案
+4. 说明后续步骤
+5. 询问是否满意此方案
+
+【示例】
+用户：收到的东西是坏的！
+回复：非常抱歉给您带来了不好的体验。了解到您收到的商品存在质量问题，对此我们深感歉意。
+
+我为您提供以下解决方案：
+1. **退货退款**：我们安排上门取件，运费由我们承担，退款将在收到退货后3个工作日内到账
+2. **换货**：我们立即为您重新发货，预计1-2个工作日送达
+
+请问您倾向哪种方案？处理过程中如有任何问题，可随时联系人工客服。工单编号：CASE-XXXXXXXX
+"""
 
 
 class ComplainAgent:
@@ -89,9 +145,9 @@ class ComplainAgent:
         from src.complaint_workflow import ComplaintWorkflow
         self.workflow = ComplaintWorkflow()
 
-    async def handle(self, text: str) -> dict:
-        # 1. Execute workflow
-        case = await self.workflow.process(text)
+    async def handle(self, text: str, sentiment: dict | None = None) -> dict:
+        # 1. Execute workflow (pass sentiment to avoid duplicate analysis)
+        case = await self.workflow.process(text, sentiment=sentiment)
 
         # 2. If escalation needed, return directly
         if case.escalated:

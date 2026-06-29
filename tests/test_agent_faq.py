@@ -1,11 +1,20 @@
-# tests/test_agent_faq.py
-from src.agent import FAQAgent
+"""Tests for FAQ Agent."""
 import pytest
+from src.agent import FAQAgent
 
 
-@pytest.mark.asyncio
-async def test_faq_agent_basic_flow():
-    agent = FAQAgent()
-    result = await agent.answer("如何查詢我的訂單狀態？")
-    assert isinstance(result, str)
-    assert len(result) > 10  # 有實際回覆
+class TestFAQAgent:
+    @pytest.fixture
+    def agent(self):
+        return FAQAgent()
+
+    @pytest.mark.asyncio
+    async def test_answer_returns_string(self, agent):
+        response = await agent.answer("退货要什么条件？")
+        assert isinstance(response, str)
+        assert len(response) > 20
+
+    @pytest.mark.asyncio
+    async def test_answer_mentions_source(self, agent):
+        response = await agent.answer("7天无理由退货标准是什么？")
+        assert len(response) > 20

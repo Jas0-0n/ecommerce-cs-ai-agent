@@ -1,26 +1,35 @@
-# tests/test_api.py
-from fastapi.testclient import TestClient
+"""Tests for FastAPI endpoints."""
+import pytest
+from httpx import AsyncClient, ASGITransport
 from src.api import app
 
-client = TestClient(app)
+
+@pytest.fixture
+def client():
+    transport = ASGITransport(app=app)
+    return AsyncClient(transport=transport, base_url="http://test")
 
 
-def test_health():
-    resp = client.get("/health")
+@pytest.mark.asyncio
+async def test_health(client):
+    resp = await client.get("/health")
     assert resp.status_code == 200
     assert resp.json()["status"] == "ok"
 
 
-def test_chat_faq():
-    resp = client.post("/chat", json={"message": "怎麼退貨？"})
+@pytest.mark.asyncio
+async def test_chat_faq(client):
+    resp = await client.post("/chat", json={"message": "退货要什么条件"})
     assert resp.status_code == 200
     data = resp.json()
-    assert data["route"] in ("faq", "complaint")
-    assert len(data["response"]) > 0
+    assert data["route"] == "faq"
+    assert len(data["response"]) > 20
+    assert data["session_id"] is not None
 
 
-def test_chat_complaint():
-    resp = client.post("/chat", json={"message": "商品品質很差，我要客訴"})
+@pytest.mark.asyncio
+async def test_chat_complaint(client):
+    resp = await client.post("/chat", json={"message": "东西是坏的，质量太差了！"})
     assert resp.status_code == 200
     data = resp.json()
-    assert data["route"] in ("complaint", "faq", "agent")
+    assert data["route"] == "complaint"
