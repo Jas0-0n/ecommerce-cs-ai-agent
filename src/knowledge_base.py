@@ -1,7 +1,6 @@
 # src/knowledge_base.py
 from pathlib import Path
 import chromadb
-from chromadb.config import Settings as ChromaSettings
 from sentence_transformers import SentenceTransformer
 from src.config import settings
 
@@ -9,10 +8,9 @@ from src.config import settings
 class FAQKnowledgeBase:
     def __init__(self):
         self.encoder = SentenceTransformer(settings.embedding_model)
-        self.client = chromadb.Client(ChromaSettings(
-            persist_directory="data/chroma_db",
-            anonymized_telemetry=False
-        ))
+        persist_dir = Path("data/chroma_db")
+        persist_dir.mkdir(parents=True, exist_ok=True)
+        self.client = chromadb.PersistentClient(path=str(persist_dir))
         self.collection = self.client.get_or_create_collection(
             name=settings.kb_collection_name,
             metadata={"hnsw:space": "cosine"}
