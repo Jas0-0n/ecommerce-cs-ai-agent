@@ -1,8 +1,10 @@
 # src/dispatcher.py
 import json
+import time
 from src.llm_client import LLMClient, Message
 from src.sentiment import SentimentAnalyzer
 from src.agent import FAQAgent, ComplainAgent
+from src.monitoring import monitor
 
 DISPATCH_SYSTEM_PROMPT = """You are an e-commerce customer service dispatch system.
 Analyze the user input and decide which sub-agent should handle it.
@@ -49,18 +51,24 @@ class Dispatcher:
         return route_info
 
     async def handle(self, text: str) -> dict:
+        start = time.time()
         route_info = await self.route(text)
         route = route_info["route"]
 
         if route == "faq":
             response = await self.faq_agent.answer(text)
-            return {"route": "faq", "response": response, "route_info": route_info}
+            result = {"route": "faq", "response": response, "route_info": route_info}
         elif route == "complaint":
             result = await self.complain_agent.handle(text)
-            return {"route": "complaint", **result, "route_info": route_info}
+            result["route"] = "complaint"
+            result["route_info"] = route_info
         else:
-            return {
+            result = {
                 "route": "agent",
                 "response": "I will transfer you to a human agent, please wait...",
                 "route_info": route_info
             }
+
+        duration = int((time.time() - start) * 1000)
+        monitor.log_interaction(text, result, duration)
+        return result
