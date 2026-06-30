@@ -118,6 +118,7 @@ class LLMClient:
         kwargs = {
             "model": self.model,
             "messages": [_serialize_message(m) for m in messages],
+            "temperature": 0.1,
         }
         if tools:
             kwargs["tools"] = [
@@ -146,6 +147,7 @@ class LLMClient:
             "model": self.model,
             "messages": [_serialize_message(m) for m in messages],
             "stream": True,
+            "temperature": 0.1,
         }
         if tools:
             kwargs["tools"] = [
@@ -210,6 +212,7 @@ class LLMClient:
         kwargs = {
             "model": self.model,
             "messages": [_serialize_message(m) for m in messages],
+            "temperature": 0.1,
         }
         if tools:
             kwargs["tools"] = [
@@ -238,6 +241,7 @@ class LLMClient:
             "model": self.model,
             "messages": [_serialize_message(m) for m in messages],
             "stream": True,
+            "temperature": 0.1,
         }
         if tools:
             kwargs["tools"] = [
